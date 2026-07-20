@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:gym_android/widgets/workout_card.dart';
+import '../models/workout_group.dart';
+import '../repositories/memory_workout_repository.dart';
+import '../pages/exercise_list_page.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+  const HomePage({super.key, required this.repository});
 
-@override
+  final MemoryWorkoutRepository repository;
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -16,67 +22,75 @@ class HomePage extends StatelessWidget {
           ],
         ),
       ),
-      body: const Center(child: HomeBody()),
+      body: Center(child: HomeBody(repository: repository)),
     );
-
   }
 }
 
-  class HomeBody extends StatefulWidget {
-    const HomeBody({super.key});
+class HomeBody extends StatefulWidget {
+  const HomeBody({super.key, required this.repository});
 
-    @override
-    State<HomeBody> createState() => _HomeBodyState();
-  }
+  final MemoryWorkoutRepository repository;
 
-  class _HomeBodyState extends State<HomeBody> {
+  @override
+  State<HomeBody> createState() => _HomeBodyState();
+}
 
-
+class _HomeBodyState extends State<HomeBody> {
   bool isKarunen = true;
-  bool isAlice = false; 
+  bool isAlice = false;
 
   @override
   Widget build(BuildContext context) {
-    final bool hasSelection = isKarunen || isAlice;
-    final today = DateTime.now().toLocal();
-    final dateText = '${today.day}/${today.month}/${today.year}';
 
     final workoutCards = [
-      _buildWorkoutCard(
-        icon: Icons.arrow_upward,
-        label: 'Upper',
-        subtitle: _buildSubtitle(
-          isKarunen: isKarunen,
-          isAlice: isAlice,
-          dateText: dateText,
-        ),
-        color: hasSelection
-            ? Colors.blue.shade100
-            : Colors.grey.shade300,
+      WorkoutCard(
+        isKarunen: isKarunen,
+        isAlice: isAlice,
+        workoutGroup: WorkoutGroup.upper,
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ExerciseListPage(
+                workoutGroup: WorkoutGroup.upper,
+                repository: widget.repository,
+              ),
+            ),
+          );
+        },
       ),
-      _buildWorkoutCard(
-        icon: Icons.arrow_downward,
-        label: 'Lower',
-        subtitle: _buildSubtitle(
-          isKarunen: isKarunen,
-          isAlice: isAlice,
-          dateText: dateText,
-        ),
-        color: hasSelection
-            ? Colors.green.shade100
-            : Colors.grey.shade300,
+      WorkoutCard(
+        isKarunen: isKarunen,
+        isAlice: isAlice,
+        workoutGroup: WorkoutGroup.lower,
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ExerciseListPage(
+                workoutGroup: WorkoutGroup.lower,
+                repository: widget.repository,
+              ),
+            ),
+          );
+        },
       ),
-      _buildWorkoutCard(
-        icon: Icons.directions_run,
-        label: 'Cardio',
-        subtitle: _buildSubtitle(
-          isKarunen: isKarunen ,
-          isAlice: isAlice,
-          dateText: dateText,
-        ),
-        color: hasSelection
-            ? Colors.orange.shade100
-            : Colors.grey.shade300,
+      WorkoutCard(
+        isKarunen: isKarunen,
+        isAlice: isAlice,
+        workoutGroup: WorkoutGroup.cardio,
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ExerciseListPage(
+                workoutGroup: WorkoutGroup.cardio,
+                repository: widget.repository,
+              ),
+            ),
+          );
+        },
       ),
     ];
 
@@ -155,57 +169,4 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  String _buildSubtitle({
-    required bool isKarunen,
-    required bool isAlice,
-    required String dateText
-  }) {
-    if (isKarunen && isAlice) {
-      return 'Karunen Last workout: $dateText\n\nAlice Last workout: $dateText';
-    }
-
-    if (isKarunen) {
-      return 'Karunen Last workout: $dateText';
-    }
-
-    if (isAlice) {
-      return 'Alice Last workout: $dateText';
-    }
-
-    return 'No trainee selected';
-  }
-
-  Widget _buildWorkoutCard({
-    required IconData icon,
-    required String label,
-    required String subtitle,
-    required Color color,
-  }) {
-    return Card(
-      color: color,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(icon, size: 32),
-            const SizedBox(height: 8),
-            Text(
-              label,
-              style: const TextStyle(fontWeight: FontWeight.w600),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              subtitle,
-              textAlign: TextAlign.center,
-              style: const TextStyle(fontSize: 12),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'pages/home_page.dart';
+import 'repositories/memory_workout_repository.dart';
 
 void main() {
   runApp(const GymTrackerApp());
@@ -10,10 +11,12 @@ class GymTrackerApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final repository = MemoryWorkoutRepository();
+
     return MaterialApp(
       title: 'Gym Tracker',
       debugShowCheckedModeBanner: false,
-      home: const HomePage(),
+      home: HomePage(repository: repository),
     );
   }
 }
