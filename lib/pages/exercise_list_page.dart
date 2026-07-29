@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gym_android/models/workout_group.dart';
 import '../repositories/memory_workout_repository.dart';
+import 'workout_entry_page.dart';
 
 class ExerciseListPage extends StatelessWidget {
   final WorkoutGroup workoutGroup;
@@ -38,14 +39,30 @@ class ExerciseListPage extends StatelessWidget {
                   margin: EdgeInsets.zero,
                   child: ListTile(
                     title: Text(exercise.name),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => WorkoutEntryPage(
+                            exercise: exercise
+                          ),
+                        ),
+                      );
+                      // Handle exercise tap, e.g., navigate to exercise details
+                    },
                   ),
                 );
               },
             ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // TODO: Add exercise action
-        },
+      onPressed: () {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Add exercise action coming soon'),
+            duration: Duration(seconds: 2),
+          ),
+        );
+      },
         child: const Icon(Icons.add),
       ),
     );
