@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import '../models/exercise.dart';
 import '../models/workout_set.dart';
-import '../repositories/base/workout_repository.dart';
+import '../repositories/base/exercise_repository.dart';
 
 class WorkoutEntryPage extends StatefulWidget {
   final Exercise exercise;
-  final WorkoutRepository repository;
+  final ExerciseRepository repository;
   
 
   const WorkoutEntryPage({

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'pages/home_page.dart';
-import 'repositories/mock/mock_workout_repository.dart';
+import 'repositories/mock/mock_exercise_repository.dart';
 import 'repositories/mock/mock_profile_repository.dart';
 
 void main() {
@@ -12,8 +12,8 @@ class GymTrackerApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final repository = MockMemoryWorkoutRepository();
-    final profileRepository = MockMemoryProfileRepository();
+    final repository = MockExerciseRepository();
+    final profileRepository = MockProfileRepository();
 
     return MaterialApp(
       title: 'Gym Tracker',

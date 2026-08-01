@@ -2,7 +2,7 @@ import '../../models/exercise.dart';
 import '../../models/workout_group.dart';
 
 
-abstract class WorkoutRepository {
+abstract class ExerciseRepository {
   List<Exercise> getExercises();
 
   List<Exercise> getExercisesByGroup(WorkoutGroup group);

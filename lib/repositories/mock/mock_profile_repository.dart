@@ -3,7 +3,7 @@ import '../../models/profile.dart';
 import '../base/profile_repository.dart';
 
 
-class MockMemoryProfileRepository implements ProfileRepository {
+class MockProfileRepository implements ProfileRepository {
 
   final List<Profile> _profiles = List.from(profiles);
 

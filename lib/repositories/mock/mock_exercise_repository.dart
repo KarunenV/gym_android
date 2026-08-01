@@ -1,9 +1,9 @@
 import '../../mock_data/exercises.dart';
 import '../../models/exercise.dart';
 import '../../models/workout_group.dart';
-import '../base/workout_repository.dart';
+import '../base/exercise_repository.dart';
 
-class MockMemoryWorkoutRepository implements WorkoutRepository {
+class MockExerciseRepository implements ExerciseRepository {
 
   final List<Exercise> _exercises = List.from(exercises);
 

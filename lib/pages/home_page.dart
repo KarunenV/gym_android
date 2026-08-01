@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:gym_android/widgets/workout_card.dart';
 import '../models/profile.dart';
 import '../models/workout_group.dart';
-import '../repositories/base/workout_repository.dart';
+import '../repositories/base/exercise_repository.dart';
 import '../pages/exercise_list_page.dart';
 import '../repositories/base/profile_repository.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key, required this.exercisesRepository, required this.profileRepository});
 
-  final WorkoutRepository exercisesRepository;
+  final ExerciseRepository exercisesRepository;
   final ProfileRepository profileRepository;
 
   @override
@@ -33,7 +33,7 @@ class HomePage extends StatelessWidget {
 class HomeBody extends StatefulWidget {
   const HomeBody({super.key, required this.exercisesRepository, required this.profileRepository});
 
-  final WorkoutRepository exercisesRepository;
+  final ExerciseRepository exercisesRepository;
   final ProfileRepository profileRepository;
 
   @override

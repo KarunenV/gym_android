@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:gym_android/models/workout_group.dart';
-import '../repositories/base/workout_repository.dart';
+import '../repositories/base/exercise_repository.dart';
 import 'workout_entry_page.dart';
 
 class ExerciseListPage extends StatelessWidget {
   final WorkoutGroup workoutGroup;
-  final WorkoutRepository repository;
+  final ExerciseRepository repository;
 
   const ExerciseListPage({
     super.key,
