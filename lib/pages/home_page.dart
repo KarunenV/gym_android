@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:gym_android/widgets/workout_card.dart';
+import '../models/profile.dart';
 import '../models/workout_group.dart';
-import '../repositories/memory_workout_repository.dart';
+import '../repositories/base/workout_repository.dart';
 import '../pages/exercise_list_page.dart';
+import '../repositories/base/profile_repository.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({super.key, required this.repository});
+  const HomePage({super.key, required this.exercisesRepository, required this.profileRepository});
 
-  final MemoryWorkoutRepository repository;
+  final WorkoutRepository exercisesRepository;
+  final ProfileRepository profileRepository;
 
   @override
   Widget build(BuildContext context) {
@@ -22,31 +25,43 @@ class HomePage extends StatelessWidget {
           ],
         ),
       ),
-      body: Center(child: HomeBody(repository: repository)),
+      body: Center(child: HomeBody(exercisesRepository: exercisesRepository, profileRepository: profileRepository)),
     );
   }
 }
 
 class HomeBody extends StatefulWidget {
-  const HomeBody({super.key, required this.repository});
+  const HomeBody({super.key, required this.exercisesRepository, required this.profileRepository});
 
-  final MemoryWorkoutRepository repository;
+  final WorkoutRepository exercisesRepository;
+  final ProfileRepository profileRepository;
 
   @override
   State<HomeBody> createState() => _HomeBodyState();
 }
 
 class _HomeBodyState extends State<HomeBody> {
-  bool isKarunen = true;
-  bool isAlice = false;
+  void _setProfileActive(String id, bool isActive) {
+    final profile = widget.profileRepository.getProfileById(id);
+    widget.profileRepository.updateProfile(
+      Profile(
+        id: profile.id,
+        name: profile.name,
+        isActive: isActive,
+      ),
+    );
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
+    final karunenProfile = widget.profileRepository.getProfileById('karunen');
+    final aliceProfile = widget.profileRepository.getProfileById('alice');
 
     final workoutCards = [
       WorkoutCard(
-        isKarunen: isKarunen,
-        isAlice: isAlice,
+        isKarunen: karunenProfile.isActive,
+        isAlice: aliceProfile.isActive,
         workoutGroup: WorkoutGroup.upper,
         onTap: () {
           Navigator.push(
@@ -54,15 +69,15 @@ class _HomeBodyState extends State<HomeBody> {
             MaterialPageRoute(
               builder: (context) => ExerciseListPage(
                 workoutGroup: WorkoutGroup.upper,
-                repository: widget.repository,
+                repository: widget.exercisesRepository,
               ),
             ),
           );
         },
       ),
       WorkoutCard(
-        isKarunen: isKarunen,
-        isAlice: isAlice,
+        isKarunen: karunenProfile.isActive,
+        isAlice: aliceProfile.isActive,
         workoutGroup: WorkoutGroup.lower,
         onTap: () {
           Navigator.push(
@@ -70,15 +85,15 @@ class _HomeBodyState extends State<HomeBody> {
             MaterialPageRoute(
               builder: (context) => ExerciseListPage(
                 workoutGroup: WorkoutGroup.lower,
-                repository: widget.repository,
+                repository: widget.exercisesRepository,
               ),
             ),
           );
         },
       ),
       WorkoutCard(
-        isKarunen: isKarunen,
-        isAlice: isAlice,
+        isKarunen: karunenProfile.isActive,
+        isAlice: aliceProfile.isActive,
         workoutGroup: WorkoutGroup.cardio,
         onTap: () {
           Navigator.push(
@@ -86,7 +101,7 @@ class _HomeBodyState extends State<HomeBody> {
             MaterialPageRoute(
               builder: (context) => ExerciseListPage(
                 workoutGroup: WorkoutGroup.cardio,
-                repository: widget.repository,
+                repository: widget.exercisesRepository,
               ),
             ),
           );
@@ -114,26 +129,22 @@ class _HomeBodyState extends State<HomeBody> {
               child: Column(
                 children: [
                   CheckboxListTile(
-                    title: const Text('Karunen'),
-                    value: isKarunen,
+                    title: Text(karunenProfile.name),
+                    value: karunenProfile.isActive,
                     controlAffinity: ListTileControlAffinity.leading,
                     contentPadding: const EdgeInsets.symmetric(horizontal: 16),
                     onChanged: (bool? value) {
-                      setState(() {
-                        isKarunen = value ?? false;
-                      });
+                      _setProfileActive(karunenProfile.id, value ?? false);
                     },
                   ),
                   const Divider(height: 1),
                   CheckboxListTile(
-                    title: const Text('Alice'),
-                    value: isAlice,
+                    title: Text(aliceProfile.name),
+                    value: aliceProfile.isActive,
                     controlAffinity: ListTileControlAffinity.leading,
                     contentPadding: const EdgeInsets.symmetric(horizontal: 16),
                     onChanged: (bool? value) {
-                      setState(() {
-                        isAlice = value ?? false;
-                      });
+                      _setProfileActive(aliceProfile.id, value ?? false);
                     },
                   ),
                 ],

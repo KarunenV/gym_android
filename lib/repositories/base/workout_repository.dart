@@ -1,5 +1,6 @@
-import '../models/exercise.dart';
-import '../models/workout_group.dart';
+import '../../models/exercise.dart';
+import '../../models/workout_group.dart';
+
 
 abstract class WorkoutRepository {
   List<Exercise> getExercises();
