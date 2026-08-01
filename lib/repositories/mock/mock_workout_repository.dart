@@ -23,5 +23,4 @@ class MockMemoryWorkoutRepository implements WorkoutRepository {
   void addExercise(Exercise exercise) {
     _exercises.add(exercise);
   }
-
 }

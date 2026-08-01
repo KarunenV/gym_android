@@ -1,8 +1,10 @@
 class WorkoutSet {
-  WorkoutSet({required this.reps, required this.weight});
+  static int _nextId = 0;
 
-   int reps;
+  final String id;
+  int reps;
+  double weight;
 
-   double weight;
-
+  WorkoutSet({String? id, required this.reps, required this.weight})
+      : id = id ?? 'set_${_nextId++}';
 }
