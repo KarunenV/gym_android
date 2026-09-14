@@ -3,10 +3,11 @@ class Profile {
   final String name;
   final bool isActive;
 
+
   const Profile({
     required this.id,
     required this.name,
-    required this.isActive,
+    this.isActive = false,
   });
 }
     

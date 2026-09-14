@@ -5,8 +5,7 @@ import '../repositories/base/exercise_repository.dart';
 
 class WorkoutEntryPage extends StatefulWidget {
   final Exercise exercise;
-  final ExerciseRepository repository;
-  
+  final ExerciseRepository repository;  
 
   const WorkoutEntryPage({
     super.key,
